@@ -1,5 +1,6 @@
 ---
 title: "IODS course project"
+author: "Bram Berntzen"
 output:
   html_document:
     theme: cosmo
