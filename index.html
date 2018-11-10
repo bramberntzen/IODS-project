@@ -146,7 +146,7 @@ $(document).ready(function () {
 <div id="TOC">
 <ul>
 <li><a href="#about-the-project">About the project</a></li>
-<li><a href="#insert-chapter-2-title-here">Insert chapter 2 title here</a></li>
+<li><a href="#regression-and-model-validation">Regression and model validation</a></li>
 </ul>
 </div>
 
@@ -156,14 +156,35 @@ $(document).ready(function () {
 <p>Looking forward to learn about R! <a href="https://github.com/bramberntzen/IODS-project" class="uri">https://github.com/bramberntzen/IODS-project</a></p>
 <hr />
 </div>
-<div id="insert-chapter-2-title-here" class="section level1">
-<h1>Insert chapter 2 title here</h1>
-<p><em>Describe the work you have done this week and summarize your learning.</em></p>
-<ul>
-<li>Describe your work and results clearly.</li>
-<li>Assume the reader has an introductory course level understanding of writing and reading R code as well as statistical methods</li>
-<li>Assume the reader has no previous knowledge of your data or the more advanced methods you are using</li>
-</ul>
+<div id="regression-and-model-validation" class="section level1">
+<h1>Regression and model validation</h1>
+<p>The code without all the hashtags works in Rmarkdown but it was impossible to knit. You can find the code without hashtags in my folder. When knitting i got the error that the object “learning 2014 couldnt be found”</p>
+<pre class="r"><code>#read.csv(file = &quot;learning2014&quot;)
+#str(learning2014)
+#dim(learning2014)</code></pre>
+<p>For question 1 I opened the earlier created dataset “learning2014”, which includes variables about various measures of learning.When inspecting the data we see that we have 166 observations of 7 variables: gender, age, attitude, deep, strategic and surface learning, and the total points.</p>
+<pre class="r"><code>#access ggplot2 library
+#library(ggplot2)
+#pairs(learning2014)
+#summary(learning2014)</code></pre>
+<p>For question 2 we install ggplot2 with: install.packages(“ggplot2”). Through the code “pairs” we create a correlation matrix of all variables in learning2014. In this way we get a general overview of the spread of the variables and how they are related with the other measures, without any details on the exact correlations.</p>
+<p>Through “summary” we find an overview of the lowest values of the variables and the interquartiles, mean and maximal values. There are 100 females and 56 males, the age ranges from 17 to 55 years old. The scores for attitude, deep, strategic, and surface learning vary between 1 and 5 approximately. You can find more details in the summary.</p>
+<pre class="r"><code>#create a regression model with multiple explanatory variables
+#multi_reg &lt;- lm(points ~ attitude + stra + surf, data = learning2014)
+
+#print out a summary of the model
+#summary(multi_reg)
+
+#Build the new linear model with only significant predictors
+#multi_reg_sign &lt;- lm(points ~ attitude, data = learning2014)</code></pre>
+<p>For question 3 I created a multivariate regression model with the function lm under the name multi_reg. I inserted points as the dependent variable, and attitude, strategic and surface learning as the predictors.</p>
+<p>From the summary of this model we can conclude that only attitude has a significant assoction with points (P = 0.003 –&gt; this means it is smaller than 0.05, hence significant). One point higher in attitude is associated with 3.395 increase in points. The standard error, which is the range of expected deviation from the estimate, is 0.57. The intercept is the point where the regression line crosses the y-axis, so this is usually the starting point of investigation.</p>
+<p>Then, i created a new model without the predictors strategic and surface learning, because these have no significant association with the outcome variable (P&gt;=0.05).</p>
+<pre class="r"><code>#summary(multi_reg_sign)</code></pre>
+<p>With the summary of the new model in question 4, attitude is still strongly significantly associated with points (p = 1.95e-09), and a single point increase in attitude is associated with a 3.5255 increase in points. The multiple R-squared indicates the correlation coefficient of the model, also known as the slope of the regression line, which is 0.1906.</p>
+<pre class="r"><code>#plot(multi_reg_sign, which = c(1,2,5))</code></pre>
+<p>With the “which” command we can plot 1. residuals vs fitted, 2. Normal Q-Q and 5. Residuals vs Leverage plot required for question 5.</p>
+<p>In the residuals vs fitted plot we can see that there is a constant variance, which means that the size of the errors should not depend on the explanatory variables/predictors. In the Normal Q-Q plot it seems that the lowest (below -2) and highest (over 2) values deviate from the mean (regression line). Hence, the errors of the model are not normally distributed. From the residuals vs leverage plot we can see whether there are any outliers. It seems like there are no outliers of any concern . The data is not biased by the influence of single observations with an unusual impact.</p>
 <hr />
 </div>
 
