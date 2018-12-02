@@ -1,0 +1,8 @@
+---
+title: "Chapter 3"
+author: "BB"
+date: "25 november 2018"
+output: html_document
+---
+
+# Chapter 3 = missing

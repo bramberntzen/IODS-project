@@ -1,4 +1,4 @@
-# Regression and model validation
+# Chapter 2
 
 ```{r}
 setwd("C:/Users/Bram/Desktop/Open data science course/GitHub/IODS-project/data")

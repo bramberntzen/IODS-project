@@ -5,6 +5,8 @@ date: "24 november 2018"
 output: html_document
 ---
 
+# Chapter4
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -28,11 +30,11 @@ cor_matrix <- cor(Boston) %>% round(digits = 2)
 corrplot(cor_matrix, method="circle", type = "upper", cl.pos = "b", tl.pos = "d", tl.cex = 0.6)
 summary(Boston)
 ```
-##Correlation plot
+Correlation plot
 This correlation plot gives us a nice overview of the relations between the variables. The darker blue and larger the circle, the higher the positive correlation coefficient. The darker red and larger the circle, the stronger the negative correlation. The average distance to five Boston employment centres is negatively associated with age, nitrogen oxide concentration and proportion of non-retail business acres per town. Unsurprisingly, the lower status of the population is negatively linked to median value of owner-occupied homes in \$1000s.
 There is a very strong positive correlation between accessibility to radial highways and full-value property-tax rate per \$10,000. Also, proportion of non-retail business acres per town is associated with nitrogen oxides concentration. 
 
-##Summary
+Summary
 Through summary we get an indication of the distribution of the variable values. The minimal and maximal values are distinct for per capita crime rate by town, proportion of residential land, proportion of non-retail business acres per town, and the Charles River dummy variable, but the majority of the values are on the lower end (as visible through the low values of the 3rd quartile). The opposite is true for black; 1000(Bk - 0.63)^2 where Bk is the proportion of blacks by town. Most other variables seem to be fairly normally distributed.
 
 ```{r}

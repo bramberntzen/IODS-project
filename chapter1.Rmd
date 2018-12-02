@@ -1,5 +1,4 @@
-
-# About the project
+# Chapter 1
 
 Looking forward to learn about R!
 https://github.com/bramberntzen/IODS-project

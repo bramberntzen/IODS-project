@@ -2,18 +2,20 @@
 The code without all the hashtags works in Rmarkdown but it was impossible to knit. You can find the code without hashtags in my folder. When knitting i got the error that the object "learning 2014 couldnt be found"
 
 ```{r}
-#read.csv(file = "learning2014")
-#str(learning2014)
-#dim(learning2014)
+setwd("C:/Users/Bram/Desktop/Open data science course/GitHub/IODS-project/data")
+learning2014 <- read.table(file = "learning2014d.txt",
+                           header = TRUE,
+                          dec = ".")
+learning2014
 ```
 For question 1 I opened the earlier created dataset "learning2014", which includes variables about various measures of learning.When inspecting the data we see that we have 166 observations of 7 variables: gender, age, attitude, deep, strategic and surface learning, and the total points.
 
  
 ```{r}
 #access ggplot2 library
-#library(ggplot2)
-#pairs(learning2014)
-#summary(learning2014)
+library(ggplot2)
+pairs(learning2014)
+summary(learning2014)
 ```
 For question 2 we install ggplot2 with: install.packages("ggplot2"). Through the code "pairs" we create a correlation matrix of all variables in learning2014. In this way we get a general overview of the spread of the variables and how they are related with the other measures, without any details on the exact correlations. 
 
@@ -21,13 +23,13 @@ Through "summary" we find an overview of the lowest values of the variables and 
 
 ```{r}
 #create a regression model with multiple explanatory variables
-#multi_reg <- lm(points ~ attitude + stra + surf, data = learning2014)
+multi_reg <- lm(points ~ attitude + stra + surf, data = learning2014)
 
 #print out a summary of the model
-#summary(multi_reg)
+summary(multi_reg)
 
-#Build the new linear model with only significant predictors
-#multi_reg_sign <- lm(points ~ attitude, data = learning2014)
+Build the new linear model with only significant predictors
+multi_reg_sign <- lm(points ~ attitude, data = learning2014)
 ```
 For question 3 I created a multivariate regression model with the function lm under the name multi_reg. I inserted points as the dependent variable, and attitude, strategic and surface learning as the predictors.
 
@@ -37,13 +39,12 @@ Then, i created a new model without the predictors strategic and surface learnin
 
 
 ```{r}
-
-#summary(multi_reg_sign)
+summary(multi_reg_sign)
 ```
 With the summary of the new model in question 4, attitude is still strongly significantly associated with points (p = 1.95e-09), and a single point increase in attitude is associated with a 3.5255 increase in points. The multiple R-squared indicates the correlation coefficient of the model, also known as the slope of the regression line, which is 0.1906. 
 
 ```{r}
-#plot(multi_reg_sign, which = c(1,2,5))
+plot(multi_reg_sign, which = c(1,2,5))
 ```
 With the "which" command we can plot 1. residuals vs fitted, 2. Normal Q-Q and 5. Residuals vs Leverage plot required for question 5.
 
