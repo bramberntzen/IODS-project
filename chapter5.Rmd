@@ -1,0 +1,108 @@
+---
+title: "chapter5"
+author: "BB"
+date: "2 December 2018"
+output: html_document
+---
+
+# Chapter 5
+
+```{r}
+# read .txt file
+human_ <- read.table(file = "human_.txt", header = TRUE, dec = ".")
+setwd("C:/Users/Bram/Desktop/Open data science course/GitHub/IODS-project")
+
+# confirm that saving and reopening of the file went correctly
+str(human_)
+dim(human_)
+
+# Access GGally
+library(GGally)
+
+# visualize and summarize the 'human_' variables
+ggpairs(human_)
+summary(human_)
+
+# open Hmisc to make histograms of the variables
+library(Hmisc)
+hist.data.frame(human_)
+```
+
+
+From the ggpairs plot we can see that maternal mortality ratio (Mat.Mor) correlates strongly with the ratio of female and male populations with secondary education (EDU2FM), life expectancy at birth (life Exp), expected years of education (Edu Exp) and adolescent birth rate (ado.birth). Representation in the parliament (Parli.FM) and labour force participation ratio of females and males (LaboFM)  show weak correlation with all other variables.
+
+Summaries and histograms of the variables give us an overview of the distribution of the variables, and it seems like the variable "expected years of education" is normally distributed, whereas the others are not. The sizes and ranges of the variables vary enormously, from 0.2 - 1.0 until 0 - 140000.
+
+
+```{r}
+# perform principal component analysis (with the singular value decomposition method; SVD) on the not standardized human data
+pca_human1 <- prcomp(human_)
+summary(pca_human1)
+biplot(pca_human1, choices = 1:2, cex = c(0.8, 1), col = c("grey40", "deeppink2"))
+```
+
+
+```{r}
+# standardize human
+human_std <- scale(human_)
+
+# print out summaries of the standardized variables
+summary(human_std)
+
+# perform principal component analysis (with the SVD method)
+pca_human2 <- prcomp(human_std)
+
+# draw a biplot of the principal component representation and the original variables
+biplot(pca_human2, choices = 1:2, cex = c(0.8, 1), col = c("grey40", "deeppink2"), sub = "PCA of human development and gender inequality")
+```
+
+The principal component analysis on the not standardized human data shows extremely large variability in the data, as seen by the large standard deviations in summary and the spread on the large axes of the biplot. GNI strongly affects the PCA because of its large variability.
+
+Standardizing the data makes the means of all variables zero, and diminishes the spread further by dividing the values by the standard deviation.
+
+In this figure the first two principal components are shown from the principal component analysis. It seems like labour force participation ratio and representation in the parliament are closely associated. Also, maternal mortality ratio and  adolescent birth rate are correlated, and the third grouping seems to be of expected years of education, gender inequality, second education and life expectancy at birth.
+
+Representation in the parliament and labour force participation ratio seem to influence principal component 2 (PC2), making PC2 a variable encompassing the work-related matters in this dataset. All other earlier mentioned variables influence PC1. Maternal mortality and adolescent birth rate influence it positively, and expected years of education, gender inequality, second education and life expectancy at birth influence PC1 negatively.Combined, PC1 encompasses predictive measures of personal factors on education and well-being. It seems like the welfare of an individual (as indicated by e.g. education and life expectancy) may be negative influenced by maternal mortality and adolescent birth rate.
+
+
+```{r}
+# access relevant libraries for this section
+library(FactoMineR)
+library(GGally)
+library(dplyr)
+library(tidyr)
+data(tea)
+
+# the tea dataset has 300 observations of 36 variables
+str(tea)
+dim(tea)
+
+# column names to keep in the dataset
+keep_columns <- c("Tea", "How", "how", "sugar", "where", "lunch")
+
+# create new dataset with the variables we want to keep only
+tea_time <- select(tea, one_of(keep_columns))
+
+# look at the structure and dimensions of the data
+str(tea_time)
+dim(tea_time)
+
+# visualize the dataset
+gather(tea_time) %>% ggplot(aes(value)) + facet_wrap("key", scales = "free") + geom_bar() + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8)) 
+
+# perform multiple correspondence analysis on the tea_time dataset
+mca <- MCA(tea_time, graph = FALSE)
+
+# summary of the model
+summary(mca)
+
+# visualize MCA with a biplot
+plot(mca, invisible=c("ind"), habillage = "quali")
+
+```
+
+The tea dataset has 300 observations of 36 variables and consists mostly of binary categorical variables. We shrink the dataset to 6 interesting variables, with info on the type of tea, additives to tea, packaging, timing of consumption and where its bought. 
+
+It seems like most people drink earl grey tea from a tea bag, without additives, at the chain store, not during lunch. The addition of sugar to tea is evenly distributed.
+
+From the biplot we can see that unpackaged tea and tea shop have high similarity, probably because that's where people buy unpackaged tea. It makes then sense that tea bags and chain stores have high similarity, because basic tea bags can be bought in supermarkets for example, no need to go to a specialized tea shop for that. Green tea seems to be different from all other variables. Most variables gather around the null points, where the null of dim1 and dim2 cross. This indicates that they dont impact the dimensions that much. 
