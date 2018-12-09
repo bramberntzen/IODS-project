@@ -27,14 +27,14 @@ RATS$Group <- factor(RATS$Group)
 BPRSL <- BPRS %>% gather(key = weeks, value = bprs, -treatment, -subject) %>% mutate(week = as.integer(substr(weeks,5,5)))
 RATSL <- RATS %>% gather(key = WD, value = Weight, -ID, -Group) %>% mutate(Time = as.integer(substr(WD, 3, 4))) 
 
-# Take a serious look at the datasets and compare wide and long files
+# Take a serious look at the datasets
 str(BPRSL)
 str(RATSL)
 
 summary(BPRSL)
 summary(RATSL)
 
-#check wide files again for comparison: in the wide file the time frames (week and Time) are separate variables for every time point. In the long form they have been gathered into one variables. In the wide file scores are recorded under the week or day number. In the long file the scores become a separate variable and the week numbers as well. 
+#check wide files again for comparison with the long file: In the wide file scores are recorded under the week or day number. In the long file the bprs, weight, week, and time become a separate variable. 
 str(BPRS)
 str(RATS)
 
