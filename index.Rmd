@@ -38,3 +38,8 @@ output:
 ```
 
 ***
+  
+```{r child = "chapter6_new.Rmd"}
+```
+
+***
